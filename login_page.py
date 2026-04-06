@@ -1,36 +1,40 @@
+"""Login page object."""
+
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from pages.base_page import BasePage
 
 
-class LoginPage:
-    
-    
-    # Локаторы
+class LoginPage(BasePage):
+    """Login page object class."""
+
+    # Locators
     USERNAME_INPUT = (By.ID, "user-name")
     PASSWORD_INPUT = (By.ID, "password")
     LOGIN_BUTTON = (By.ID, "login-button")
-    
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
-    
-    def open(self):
-       
-        self.driver.get("https://www.saucedemo.com/")
-        return self
-    
-    def login(self, username, password):
 
-        username_field = self.wait.until(
-            EC.presence_of_element_located(self.USERNAME_INPUT)
-        )
-        username_field.send_keys(username)
-        
-        password_field = self.driver.find_element(*self.PASSWORD_INPUT)
-        password_field.send_keys(password)
-        
-        login_button = self.driver.find_element(*self.LOGIN_BUTTON)
-        login_button.click()
-        
+    def open(self):
+        """
+        Open login page.
+
+        Returns:
+            LoginPage instance for chaining
+        """
+        url = "https://www.saucedemo.com/"
+        super().open(url)
+        return self
+
+    def login(self, username: str, password: str):
+        """
+        Perform login.
+
+        Args:
+            username: Username
+            password: Password
+
+        Returns:
+            LoginPage instance for chaining
+        """
+        self.input_text(self.USERNAME_INPUT, username)
+        self.input_text(self.PASSWORD_INPUT, password)
+        self.click_element(self.LOGIN_BUTTON)
         return self

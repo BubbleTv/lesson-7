@@ -1,23 +1,16 @@
+"""Cart page object."""
+
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from pages.base_page import BasePage
 
 
-class CartPage:
+class CartPage(BasePage):
+    """Cart page object class."""
+
+    # Locators
     CHECKOUT_BUTTON = (By.ID, "checkout")
-    CART_ITEMS = (By.CLASS_NAME, "cart_item")
-    
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
-    
-    def get_cart_items_count(self):
-        items = self.driver.find_elements(*self.CART_ITEMS)
-        return len(items)
-    
+
     def click_checkout(self):
-        checkout_button = self.wait.until(
-            EC.element_to_be_clickable(self.CHECKOUT_BUTTON)
-        )
-        checkout_button.click()
+        """Click checkout button."""
+        self.click_element(self.CHECKOUT_BUTTON)
         return self
